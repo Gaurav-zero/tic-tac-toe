@@ -15,14 +15,16 @@ const display= document.querySelector(".arrayDisplay");
 const turnHeading=document.querySelector(".turnHeading");
 const cells= document.querySelectorAll(".container>div");
 const resultDisplay= document.querySelector(".announceWin")
+const player1Name= document.querySelector("#player1Name");
+const player2Name= document.querySelector("#player2Name");
 
 
 function createPlayer(name, marker){
     return {name, marker};
 }
 
-const player1= createPlayer("Gaurav", "X");
-const player2= createPlayer("Rhea", "O");
+let player1= createPlayer("Gaurav", "X");
+let player2= createPlayer("Rhea", "O");
 
 function toggleTurn(){
     if(turn == "X") turn= "O";
@@ -113,6 +115,8 @@ playButton.addEventListener("click", (e)=>{
 });
 
 nameBtn.addEventListener("click", (e) =>{
+    player1['name']= player1Name.value;
+    player2['name']= player2Name.value;
     playRound();
 });
 
