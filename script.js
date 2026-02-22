@@ -8,6 +8,10 @@ const GameBoard= {
 
 const playButton= document.querySelector(".playButton");
 const form= document.querySelector("form");
+const nameBtn= document.querySelector("form>button");
+const display= document.querySelector(".arrayDisplay");
+const turnHeading=document.querySelector(".turnHeading");
+const cells= document.querySelectorAll(".container>div");
 
 
 function createPlayer(name, marker){
@@ -95,4 +99,12 @@ function playRound(){
 //event-listeners
 playButton.addEventListener("click", (e)=>{
     form.style.display="block";
+});
+
+nameBtn.addEventListener("click", (e) =>{
+    playRound();
+});
+
+cells.forEach((cell)=>{
+    cell.addEventListener("click", )
 });

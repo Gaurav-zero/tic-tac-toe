@@ -7,3 +7,15 @@
 form{
     display: none;
 }
+
+.container{
+    display: grid;
+    width: 600px;
+    height: 600px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr, 1fr,1fr;
+}
+
+.container>div{
+    border: 1px solid black;
+}
