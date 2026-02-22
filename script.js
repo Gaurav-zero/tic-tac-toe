@@ -6,16 +6,27 @@ const GameBoard= {
     ],
 };
 
+let turn= "X";
+
 const playButton= document.querySelector(".playButton");
 const form= document.querySelector("form");
 const nameBtn= document.querySelector("form>button");
 const display= document.querySelector(".arrayDisplay");
 const turnHeading=document.querySelector(".turnHeading");
 const cells= document.querySelectorAll(".container>div");
+const resultDisplay= document.querySelector(".announceWin")
 
 
 function createPlayer(name, marker){
     return {name, marker};
+}
+
+const player1= createPlayer("Gaurav", "X");
+const player2= createPlayer("Rhea", "O");
+
+function toggleTurn(){
+    if(turn == "X") turn= "O";
+    else turn= "X";
 }
 
 function newRound(){
@@ -27,7 +38,7 @@ function newRound(){
 }
 
 function announceWinner(player){
-    console.log(`${player.name} wins!!`);
+    resultDisplay.textContent= `${player.name} wins!!`;
     return;
 }
 
@@ -106,5 +117,57 @@ nameBtn.addEventListener("click", (e) =>{
 });
 
 cells.forEach((cell)=>{
-    cell.addEventListener("click", )
+    cell.addEventListener("click", (e)=>{
+        if(cell.textContent==""){
+            cell.textContent= turn;
+
+            let row=-1;
+            let column=-1;
+            let expr= e.target.id;
+
+            switch(expr){
+                case "1":
+                    row=0;
+                    column=0;
+                    break;
+                case '2':
+                    row=0;
+                    column=1;
+                    break;
+                case '3':
+                    row=0;
+                    column=2;
+                    break;
+                case '4':
+                    row=1;
+                    column=0;
+                    break;
+                case '5':
+                    row=1;
+                    column=1;
+                    break;
+                case '6':
+                    row=1;
+                    column=2;
+                    break;
+                case '7':
+                    row=2;
+                    column=0;
+                    break;
+                case '8':
+                    row=2;
+                    column=1;
+                    break;
+                case '9':
+                    row=2;
+                    column=2;
+                    break;
+            }
+
+            if(turn=="X") placeMarker(player1,row,column);
+            else placeMarker(player2, row, column);
+
+            toggleTurn();
+        }        
+    });
 });
