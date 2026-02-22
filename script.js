@@ -7,7 +7,9 @@ const GameBoard= {
 };
 
 let turn= "X";
+let end= 0;
 
+const displayDiv= document.querySelector(".display");
 const playButton= document.querySelector(".playButton");
 const form= document.querySelector("form");
 const nameBtn= document.querySelector("form>button");
@@ -17,6 +19,8 @@ const cells= document.querySelectorAll(".container>div");
 const resultDisplay= document.querySelector(".announceWin")
 const player1Name= document.querySelector("#player1Name");
 const player2Name= document.querySelector("#player2Name");
+const playAgainBtn= document.querySelector(".playAgain");
+
 
 
 function createPlayer(name, marker){
@@ -26,9 +30,28 @@ function createPlayer(name, marker){
 let player1= createPlayer("Gaurav", "X");
 let player2= createPlayer("Rhea", "O");
 
+function checkFullArray(arr){
+    let chk=1;
+    for(let i=0; i<3; ++i){
+        for(let j=0; j<3; ++j){
+            if(GameBoard.gameBoard[i][j] == "") chk=0;
+        }
+    }
+
+    return chk;
+}
+
 function toggleTurn(){
-    if(turn == "X") turn= "O";
-    else turn= "X";
+    if(end==0){
+        if(turn == "X") {
+            turn= "O";
+            turnHeading.textContent= `${player2.name}'s turn`;
+        }
+        else {
+            turn= "X";
+            turnHeading.textContent= `${player1.name}'s turn`;
+        }
+    }    
 }
 
 function newRound(){
@@ -37,10 +60,33 @@ function newRound(){
         ["", "", ""],
         ["", "", ""],
     ]
+
+    form.style.display="none";
+    turnHeading.textContent="";
+    cells.forEach((cell)=>{
+        cell.textContent="";
+    });
+    playAgainBtn.style.display="none";
+    resultDisplay.textContent="";
+    player1Name.value="";
+    player2Name.value="";
+
+    displayDiv.style.display= "none";
 }
 
 function announceWinner(player){
+    end=1;
     resultDisplay.textContent= `${player.name} wins!!`;
+    turnHeading.textContent= "Game Ended!!"
+    playAgainBtn.style.display="block";
+    return;
+}
+
+function announceTie(player){
+    end=1;
+    resultDisplay.textContent= `Its a Tie!!`;
+    turnHeading.textContent= "Game Ended!!"
+    playAgainBtn.style.display="block";
     return;
 }
 
@@ -91,39 +137,31 @@ function checkWinner(player){
         announceWinner(player);
         return;
     }
+
+    
+    
 }
 
 function placeMarker(player, row, column){
-    if(GameBoard.gameBoard[row][column] != ""){
-        console.log("Already a marker there!!");
+    if(end==0){
+        if(GameBoard.gameBoard[row][column] != ""){
+            console.log("Already a marker there!!");
+            return;
+        }
+        GameBoard.gameBoard[row][column]= player.marker;
+        checkWinner(player);
+    }  
+    if(end == 0 && checkFullArray()){
+        announceTie(player);
         return;
-    }
-    GameBoard.gameBoard[row][column]= player.marker;
-    checkWinner(player);
+    }  
 }
 
 function playRound(){
-    const player1= createPlayer("Gaurav", "X");
-    const player2= createPlayer("Rhea", "O");
-}
-
-
-
-//event-listeners
-playButton.addEventListener("click", (e)=>{
-    form.style.display="block";
-});
-
-nameBtn.addEventListener("click", (e) =>{
-    player1['name']= player1Name.value;
-    player2['name']= player2Name.value;
-    playRound();
-});
-
-cells.forEach((cell)=>{
+    cells.forEach((cell)=>{
     cell.addEventListener("click", (e)=>{
         if(cell.textContent==""){
-            cell.textContent= turn;
+            if(end==0)cell.textContent= turn;
 
             let row=-1;
             let column=-1;
@@ -174,4 +212,29 @@ cells.forEach((cell)=>{
             toggleTurn();
         }        
     });
+});    
+}
+
+
+
+//event-listeners
+playButton.addEventListener("click", (e)=>{
+    form.style.display="block";
 });
+
+nameBtn.addEventListener("click", (e) =>{
+    player1['name']= player1Name.value;
+    player2['name']= player2Name.value;
+
+    displayDiv.style.display= "block";
+    turnHeading.textContent= `${player1.name}'s turn`;
+
+    if(end==1)toggleTurn();
+    end=0;
+    playRound();
+});
+
+playAgainBtn.addEventListener("click", (e)=>{
+    newRound();
+});
+
