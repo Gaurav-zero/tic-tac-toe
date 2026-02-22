@@ -6,6 +6,10 @@ const GameBoard= {
     ],
 };
 
+const playButton= document.querySelector(".playButton");
+const form= document.querySelector("form");
+
+
 function createPlayer(name, marker){
     return {name, marker};
 }
@@ -85,3 +89,10 @@ function playRound(){
     const player1= createPlayer("Gaurav", "X");
     const player2= createPlayer("Rhea", "O");
 }
+
+
+
+//event-listeners
+playButton.addEventListener("click", (e)=>{
+    form.style.display="block";
+});
