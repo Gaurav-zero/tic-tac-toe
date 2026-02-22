@@ -10,6 +10,14 @@ function createPlayer(name, marker){
     return {name, marker};
 }
 
+function newRound(){
+    GameBoard.gameBoard= [
+        ["", "", ""],
+        ["", "", ""],
+        ["", "", ""],
+    ]
+}
+
 function announceWinner(player){
     console.log(`${player.name} wins!!`);
     return;
