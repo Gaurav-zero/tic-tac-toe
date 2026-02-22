@@ -1,12 +1,12 @@
-const GameBoard= (() => {
-    let gameBoard= [
+const GameBoard= {
+    gameBoard: [
         ["", "", ""],
-        ["", "", ""];
-        ["", "", ""];
-    ];
-})();
+        ["", "", ""],
+        ["", "", ""],
+    ],
+};
 
-function createPlayer(name, marker) {
+function createPlayer(name, marker){
     return {name, marker};
 }
 
@@ -20,8 +20,7 @@ function checkWinner(player){
     for(let i=0; i<GameBoard.gameBoard.length; ++i){
         let win=1;
         for(let j=0; j<GameBoard.gameBoard[0].length; ++j){
-            if(GameBoard.gameBoard[i][j] != player.marker)
-                win=0;
+            if(GameBoard.gameBoard[i][j] != player.marker)win=0;                
         }
         if(win == 1){
             announceWinner(player);
@@ -29,26 +28,10 @@ function checkWinner(player){
         }
     }
 
-    for(let j=0; i<GameBoard.gameBoard[0].length; ++i){
+    for(let j=0; j<GameBoard.gameBoard[0].length; ++j){
         let win=1;
-        for(let i=0; j<GameBoard.gameBoard.length; ++j){
-            if(GameBoard.gameBoard[i][j] != player.marker)
-                win=0;
-        }
-        if(win == 1){
-            announceWinner(player);
-            return;
-        }
-    }
-
-    for(let i=0; i<GameBoard.gameBoard.length; ++i){
-        let win=1;
-        for(let j=0; j<GameBoard.gameBoard[0].length; ++j){
-            if(i==j){
-                if(GameBoard.gameBoard[i][j] != player.marker)
-                    win=0;
-            }
-            
+        for(let i=0; i<GameBoard.gameBoard.length; ++i){
+            if(GameBoard.gameBoard[i][j] != player.marker)win=0;                
         }
         if(win == 1){
             announceWinner(player);
@@ -57,6 +40,20 @@ function checkWinner(player){
     }
 
     let win=1;
+    for(let i=0; i<GameBoard.gameBoard.length; ++i){
+        for(let j=0; j<GameBoard.gameBoard[0].length; ++j){
+            if(i==j){
+                if(GameBoard.gameBoard[i][j] != player.marker)win=0;                    
+            }
+            
+        }
+    }
+    if(win == 1){
+        announceWinner(player);
+        return;
+    }
+
+    win=1;
     if(GameBoard.gameBoard[2][0] != player.marker) win=0;
     if(GameBoard.gameBoard[1][1] != player.marker) win=0;
     if(GameBoard.gameBoard[0][2] != player.marker) win=0;
